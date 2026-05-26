@@ -1,0 +1,1988 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simba Zengeni — PhD Researcher · AI Specialist · Software Architect</title>
+  <meta name="description" content="Portfolio of Simba Zengeni — PhD Researcher in AI, Digital Transformation Strategist, and Software Engineering Educator." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ============================================================
+       CSS CUSTOM PROPERTIES — Design Tokens
+    ============================================================ */
+    :root {
+      --bg-deep:       #020617;
+      --bg-surface:    #0a1628;
+      --bg-card:       rgba(10, 22, 40, 0.65);
+      --cyan:          #38BDF8;
+      --turquoise:     #47FFC5;
+      --grad:          linear-gradient(90deg, #38BDF8, #47FFC5);
+      --grad-diag:     linear-gradient(135deg, #38BDF8, #47FFC5);
+      --text-primary:  #E2E8F0;
+      --text-muted:    #64748B;
+      --text-dim:      #334155;
+      --border-glass:  rgba(56, 189, 248, 0.15);
+      --shadow-glow:   0 0 40px rgba(56, 189, 248, 0.12);
+      --radius-card:   20px;
+      --radius-pill:   999px;
+      --font-sans:     'Inter', sans-serif;
+      --font-mono:     'JetBrains Mono', monospace;
+      --transition:    0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ============================================================
+       RESET & BASE
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg-deep);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+      line-height: 1.6;
+      font-weight: 500;
+    }
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg-deep); }
+    ::-webkit-scrollbar-thumb { background: var(--cyan); border-radius: 4px; }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    button { cursor: pointer; border: none; background: none; font-family: inherit; }
+
+    /* ============================================================
+       CANVAS BACKGROUND
+    ============================================================ */
+    #bg-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ============================================================
+       LAYOUT WRAPPER
+    ============================================================ */
+    .site-wrapper {
+      position: relative;
+      z-index: 1;
+    }
+
+    .container {
+      width: min(1200px, 92vw);
+      margin-inline: auto;
+    }
+
+    /* ============================================================
+       UTILITY CLASSES
+    ============================================================ */
+    .grad-text {
+      background: var(--grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .glass-card {
+      background: #0d1f38;
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow-glow), inset 0 1px 0 rgba(255,255,255,0.05);
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+
+    .glass-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 0 60px rgba(56, 189, 248, 0.2), inset 0 1px 0 rgba(255,255,255,0.07);
+    }
+
+    /* Section headings */
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 0.5rem;
+    }
+
+    .section-title {
+      font-size: clamp(1.75rem, 4vw, 2.75rem);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+    }
+
+    .section-sub {
+      color: var(--text-muted);
+      font-size: 1rem;
+      font-weight: 500;
+      max-width: 560px;
+    }
+
+    /* Scroll reveal base */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* ============================================================
+       NAVIGATION — Liquid Glass Pill
+    ============================================================ */
+    .nav-wrap {
+      position: fixed;
+      top: 1.25rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+      width: min(820px, 94vw);
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.65rem 1.25rem;
+      background: rgba(2, 6, 23, 0.55);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      border-radius: var(--radius-pill);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255,255,255,0.04) inset;
+      gap: 1rem;
+    }
+
+    .nav-brand {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      font-weight: 600;
+      background: var(--grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 0.15rem;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .nav-links a {
+      padding: 0.35rem 0.85rem;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      border-radius: var(--radius-pill);
+      transition: color var(--transition), background var(--transition);
+      letter-spacing: 0.01em;
+    }
+
+    .nav-links a:hover, .nav-links a.active {
+      color: var(--text-primary);
+      background: rgba(56, 189, 248, 0.12);
+    }
+
+    .nav-cta {
+      padding: 0.4rem 1.1rem;
+      background: var(--grad);
+      color: #020617 !important;
+      font-weight: 700 !important;
+      border-radius: var(--radius-pill);
+      font-size: 0.78rem !important;
+      letter-spacing: 0.02em;
+      flex-shrink: 0;
+      transition: opacity var(--transition), transform var(--transition) !important;
+    }
+    .nav-cta:hover {
+      opacity: 0.9;
+      transform: scale(1.03) !important;
+      background: rgba(56,189,248,0.12) !important;
+      color: var(--cyan) !important;
+    }
+
+    /* Hamburger */
+    .nav-burger {
+      display: none;
+      flex-direction: column;
+      gap: 4px;
+      padding: 6px;
+      border-radius: 8px;
+      transition: background var(--transition);
+    }
+    .nav-burger span {
+      display: block;
+      width: 20px;
+      height: 2px;
+      background: var(--cyan);
+      border-radius: 2px;
+      transition: transform var(--transition), opacity var(--transition);
+    }
+    .nav-burger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .nav-burger.open span:nth-child(2) { opacity: 0; }
+    .nav-burger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+    .nav-mobile {
+      display: none;
+      position: absolute;
+      top: calc(100% + 0.5rem);
+      left: 0; right: 0;
+      background: rgba(2, 6, 23, 0.9);
+      border: 1px solid var(--border-glass);
+      border-radius: 16px;
+      backdrop-filter: blur(24px);
+      padding: 1rem;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    .nav-mobile.open { display: flex; }
+    .nav-mobile a {
+      padding: 0.6rem 1rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      border-radius: 10px;
+      transition: color var(--transition), background var(--transition);
+    }
+    .nav-mobile a:hover { color: var(--text-primary); background: rgba(56,189,248,0.1); }
+
+    /* ============================================================
+       HERO SECTION
+    ============================================================ */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8rem 1rem 5rem;
+      position: relative;
+    }
+
+    /* Force the container inside hero to centre its content */
+    #hero .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+    }
+
+    .hero-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 2rem;
+      max-width: 780px;
+      width: 100%;
+      margin-inline: auto;
+      padding-inline: 1rem;
+    }
+
+    /* Avatar */
+    .avatar-shell {
+      position: relative;
+      width: 148px;
+      height: 148px;
+      flex-shrink: 0;
+    }
+
+    .avatar-ring {
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      background: var(--grad-diag);
+      animation: spin-slow 8s linear infinite;
+      opacity: 0.85;
+    }
+
+    .avatar-ring::after {
+      content: '';
+      position: absolute;
+      inset: 3px;
+      border-radius: 50%;
+      background: var(--bg-deep);
+    }
+
+    .avatar-pulse {
+      position: absolute;
+      inset: -14px;
+      border-radius: 50%;
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      animation: pulse-ring 3s ease-in-out infinite;
+    }
+
+    .avatar-pulse2 {
+      animation-delay: 1.5s;
+      inset: -24px;
+      border-color: rgba(71, 255, 197, 0.12);
+    }
+
+    @keyframes pulse-ring {
+      0%, 100% { opacity: 0.6; transform: scale(1); }
+      50% { opacity: 0.1; transform: scale(1.06); }
+    }
+
+    @keyframes spin-slow {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .avatar-face {
+      position: absolute;
+      inset: 4px;
+      border-radius: 50%;
+      background: var(--bg-surface);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    /* SVG avatar illustration */
+    .avatar-svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Status dot */
+    .avatar-status {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      width: 14px;
+      height: 14px;
+      background: var(--turquoise);
+      border-radius: 50%;
+      border: 2px solid var(--bg-deep);
+      z-index: 2;
+      animation: blink-status 2s ease-in-out infinite;
+    }
+
+    @keyframes blink-status {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(71,255,197,0.5); }
+      50% { box-shadow: 0 0 0 6px rgba(71,255,197,0); }
+    }
+
+    /* Hero text */
+    .hero-name {
+      font-size: clamp(2.4rem, 8vw, 5rem);
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      background: linear-gradient(135deg, #E2E8F0 40%, #38BDF8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-family: var(--font-mono);
+      font-size: clamp(0.8rem, 2.2vw, 1.05rem);
+      font-weight: 500;
+      color: var(--cyan);
+      letter-spacing: 0.04em;
+      min-height: 1.6em;
+    }
+
+    .cursor-blink {
+      display: inline-block;
+      width: 2px;
+      height: 1em;
+      background: var(--turquoise);
+      margin-left: 2px;
+      vertical-align: middle;
+      animation: blink 1s step-end infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    .hero-bio {
+      color: var(--text-muted);
+      font-size: clamp(0.9rem, 2vw, 1.05rem);
+      font-weight: 500;
+      max-width: 560px;
+      line-height: 1.7;
+    }
+
+    /* Hero CTA row */
+    .hero-actions {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.75rem;
+      background: var(--grad);
+      color: #020617;
+      font-weight: 700;
+      font-size: 0.875rem;
+      border-radius: var(--radius-pill);
+      letter-spacing: 0.02em;
+      transition: opacity var(--transition), transform var(--transition), box-shadow var(--transition);
+      box-shadow: 0 4px 24px rgba(56, 189, 248, 0.3);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(56, 189, 248, 0.45);
+      opacity: 0.95;
+    }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.75rem;
+      border: 1px solid var(--border-glass);
+      color: var(--text-primary);
+      font-weight: 600;
+      font-size: 0.875rem;
+      border-radius: var(--radius-pill);
+      letter-spacing: 0.02em;
+      transition: background var(--transition), border-color var(--transition), transform var(--transition);
+      backdrop-filter: blur(8px);
+    }
+    .btn-ghost:hover {
+      background: rgba(56, 189, 248, 0.08);
+      border-color: var(--cyan);
+      transform: translateY(-2px);
+    }
+
+    /* Hero stat row */
+    .hero-stats {
+      display: flex;
+      gap: 2.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding-top: 0.5rem;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-num {
+      font-size: 1.75rem;
+      font-weight: 800;
+      background: var(--grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 0.2rem;
+    }
+
+    .stat-divider {
+      width: 1px;
+      background: var(--border-glass);
+      align-self: stretch;
+    }
+
+    /* Scroll indicator */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2rem;
+      left: 0;
+      right: 0;
+      margin-inline: auto;
+      width: fit-content;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-dim);
+      font-size: 0.78rem;
+      font-family: var(--font-mono);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    .scroll-indicator .mouse {
+      width: 30px;
+      height: 46px;
+      border: 2px solid rgba(56,189,248,0.45);
+      border-radius: 15px;
+      display: flex;
+      justify-content: center;
+      padding-top: 7px;
+    }
+
+    .scroll-indicator .wheel {
+      width: 4px;
+      height: 10px;
+      background: var(--cyan);
+      border-radius: 2px;
+      animation: scroll-wheel 1.8s ease-in-out infinite;
+    }
+
+    @keyframes scroll-wheel {
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(10px); opacity: 0; }
+    }
+
+    /* ============================================================
+       SHARED SECTION STYLES
+    ============================================================ */
+    section {
+      padding: 6rem 1rem;
+    }
+
+    .section-header {
+      margin-bottom: 3.5rem;
+    }
+
+    /* Accent line under section label */
+    .accent-line {
+      display: inline-block;
+      width: 36px;
+      height: 2px;
+      background: var(--grad);
+      border-radius: 2px;
+      margin-bottom: 0.75rem;
+    }
+
+    /* ============================================================
+       ABOUT SECTION
+    ============================================================ */
+    #about .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      align-items: stretch;
+    }
+
+    .about-side {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      height: 100%;
+    }
+
+    .about-main {
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .about-main p {
+      color: var(--text-muted);
+      line-height: 1.8;
+      margin-bottom: 1rem;
+      font-size: 0.97rem;
+      font-weight: 500;
+    }
+
+    .about-main p strong {
+      color: var(--text-primary);
+      font-weight: 700;
+    }
+
+    /* Superpowers */
+    .superpower-card {
+      padding: 1.5rem;
+      border-radius: var(--radius-card);
+      background: #0a1628;
+      border: 1px solid var(--border-glass);
+      transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+      flex: 1;
+    }
+    .superpower-card:hover {
+      transform: translateX(6px);
+      border-color: rgba(56,189,248,0.4);
+      box-shadow: -4px 0 20px rgba(56, 189, 248, 0.1);
+    }
+
+    .sp-icon {
+      width: 40px;
+      height: 40px;
+      background: rgba(56, 189, 248, 0.1);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0.75rem;
+      font-size: 1.2rem;
+    }
+
+    .sp-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 0.35rem;
+      background: var(--grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .sp-desc {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      font-weight: 500;
+    }
+
+    /* Tech tags */
+    .tech-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .tag {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      padding: 0.3rem 0.75rem;
+      background: rgba(56, 189, 248, 0.08);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      border-radius: var(--radius-pill);
+      color: var(--cyan);
+      letter-spacing: 0.05em;
+    }
+
+    /* ============================================================
+       MODULES / EXPERTISE — 3D Flip Cards
+    ============================================================ */
+    #modules .modules-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .flip-wrap {
+      perspective: 1000px;
+      height: 260px;
+    }
+
+    .flip-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .flip-wrap:hover .flip-inner {
+      transform: rotateY(180deg);
+    }
+
+    .flip-front, .flip-back {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      border-radius: var(--radius-card);
+      border: 1px solid var(--border-glass);
+      display: flex;
+      flex-direction: column;
+      padding: 2rem;
+      /* Fully opaque — no backdrop bleed */
+      isolation: isolate;
+      /* Ensure solid, opaque fill so canvas text never bleeds through */
+      -webkit-transform: translateZ(0);
+      transform: translateZ(0);
+    }
+
+    .flip-front {
+      background: #0d1f38;
+      justify-content: flex-end;
+    }
+
+    .flip-back {
+      background: #091b35;
+      transform: rotateY(180deg);
+      justify-content: center;
+      border-color: rgba(71, 255, 197, 0.25);
+    }
+
+    .flip-icon {
+      font-size: 2.5rem;
+      margin-bottom: auto;
+      display: block;
+    }
+
+    .flip-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.35rem;
+    }
+
+    .flip-category {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--cyan);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .flip-back-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      background: var(--grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .flip-back p {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      font-weight: 500;
+    }
+
+    .flip-hint {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--text-dim);
+      text-align: right;
+      margin-top: 0.75rem;
+      letter-spacing: 0.08em;
+    }
+
+    /* Gradient corner accent */
+    .flip-front::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 100px; height: 100px;
+      background: radial-gradient(circle at top right, rgba(56,189,248,0.1), transparent 70%);
+      border-radius: 0 var(--radius-card) 0 0;
+      pointer-events: none;
+    }
+
+    /* ============================================================
+       PUBLICATIONS / RESEARCH SECTION — Timeline
+    ============================================================ */
+    #research .research-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      position: relative;
+    }
+
+    /* The vertical gradient timeline line */
+    #research .research-list::before {
+      content: '';
+      position: absolute;
+      left: 54px; /* centre of the year column */
+      top: 16px;
+      bottom: 16px;
+      width: 2px;
+      background: linear-gradient(to bottom, #38BDF8, #47FFC5);
+      border-radius: 2px;
+      opacity: 0.6;
+    }
+
+    /* Each row: year+dot on left, card on right */
+    .pub-row {
+      display: grid;
+      grid-template-columns: 108px 1fr;
+      align-items: center;
+      gap: 0 1.5rem;
+      padding: 0.6rem 0;
+    }
+
+    /* Left column: year + dot */
+    .pub-timeline-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .pub-year {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--cyan);
+      letter-spacing: 0.05em;
+    }
+
+    /* Timeline dot */
+    .pub-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--grad);
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
+      flex-shrink: 0;
+    }
+
+    /* The publication card itself — compact */
+    .pub-card {
+      padding: 1.1rem 1.5rem;
+      background: #0d1f38;
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow-glow), inset 0 1px 0 rgba(255,255,255,0.04);
+      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+    }
+
+    .pub-card:hover {
+      transform: translateY(-3px) translateX(3px);
+      box-shadow: 0 0 40px rgba(56, 189, 248, 0.2);
+      border-color: rgba(56,189,248,0.3);
+    }
+
+    .pub-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      line-height: 1.4;
+    }
+
+    .pub-venue {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+      font-style: italic;
+      font-weight: 500;
+    }
+
+    .pub-tags {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    .pub-tag {
+      font-family: var(--font-mono);
+      font-size: 0.63rem;
+      padding: 0.12rem 0.55rem;
+      background: rgba(71, 255, 197, 0.08);
+      border: 1px solid rgba(71, 255, 197, 0.2);
+      border-radius: var(--radius-pill);
+      color: var(--turquoise);
+    }
+
+    /* ============================================================
+       QUOTES SECTION
+    ============================================================ */
+    #quotes {
+      background: transparent;
+    }
+
+    .quotes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .quote-card {
+      padding: 2rem;
+      position: relative;
+    }
+
+    .quote-mark {
+      font-size: 4rem;
+      line-height: 1;
+      font-family: Georgia, serif;
+      background: var(--grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      opacity: 0.6;
+      position: absolute;
+      top: 1rem;
+      left: 1.5rem;
+    }
+
+    .quote-text {
+      font-size: 0.94rem;
+      line-height: 1.75;
+      color: var(--text-primary);
+      margin-top: 2rem;
+      font-style: italic;
+      font-weight: 500;
+    }
+
+    .quote-source {
+      margin-top: 1.25rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--cyan);
+      letter-spacing: 0.08em;
+    }
+
+    /* ============================================================
+       CONTACT SECTION
+    ============================================================ */
+    #contact .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 1.5rem;
+      align-items: stretch;
+    }
+
+    .contact-info {
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .contact-info h3 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+
+    .contact-info p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 2rem;
+      font-weight: 500;
+    }
+
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      transition: color var(--transition);
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border-glass);
+    }
+    .contact-link:last-child { border-bottom: none; }
+    .contact-link:hover { color: var(--cyan); }
+    .contact-link svg { flex-shrink: 0; color: var(--cyan); }
+
+    /* Contact form */
+    .contact-form-card {
+      padding: 2.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border-glass);
+      border-radius: 10px;
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color var(--transition), box-shadow var(--transition);
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: var(--cyan);
+      box-shadow: 0 0 0 3px rgba(56,189,248,0.1);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    footer {
+      padding: 2.5rem 1rem;
+      border-top: 1px solid var(--border-glass);
+      text-align: center;
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-brand {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      background: var(--grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 600;
+    }
+
+    .footer-copy {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+    }
+
+    .footer-socials {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .social-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid var(--border-glass);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      transition: border-color var(--transition), color var(--transition), transform var(--transition);
+    }
+    .social-btn:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+      transform: translateY(-2px);
+    }
+
+    /* ============================================================
+       MOBILE NAV & RESPONSIVE BREAKPOINTS
+    ============================================================ */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-cta { display: none; }
+      .nav-burger { display: flex; }
+
+      #about .about-grid { grid-template-columns: 1fr; align-items: start; }
+      #contact .contact-grid { grid-template-columns: 1fr; }
+
+      .form-row { grid-template-columns: 1fr; }
+
+      .hero-stats { gap: 1.5rem; }
+      .stat-divider { display: none; }
+
+      /* Timeline: collapse to single column on mobile */
+      .pub-row {
+        grid-template-columns: 80px 1fr;
+      }
+      #research .research-list::before {
+        left: 40px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-actions { flex-direction: column; align-items: center; }
+      .flip-wrap { height: 220px; }
+
+      .pub-row {
+        grid-template-columns: 64px 1fr;
+        gap: 0 1rem;
+      }
+      #research .research-list::before {
+        left: 32px;
+      }
+      .pub-timeline-col { gap: 0.3rem; }
+      .pub-year { font-size: 0.7rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ============================================================
+     ANIMATED CANVAS BACKGROUND
+============================================================ -->
+<canvas id="bg-canvas" aria-hidden="true"></canvas>
+
+<div class="site-wrapper">
+
+  <!-- ============================================================
+       NAVIGATION
+  ============================================================ -->
+  <div class="nav-wrap" role="navigation" aria-label="Main navigation">
+    <nav>
+      <span class="nav-brand">SZ.dev</span>
+
+      <ul class="nav-links" role="list">
+        <li><a href="#about">About</a></li>
+        <li><a href="#modules">Expertise</a></li>
+        <li><a href="#research">Research</a></li>
+        <li><a href="#quotes">Philosophy</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+
+      <a href="#contact" class="nav-links"><a href="#contact" class="nav-cta" aria-label="Get in touch">Get In Touch</a></a>
+
+      <button class="nav-burger" id="navBurger" aria-label="Toggle mobile menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+
+    <!-- Mobile dropdown -->
+    <div class="nav-mobile" id="navMobile" role="menu">
+      <a href="#about" role="menuitem">About</a>
+      <a href="#modules" role="menuitem">Expertise</a>
+      <a href="#research" role="menuitem">Research</a>
+      <a href="#quotes" role="menuitem">Philosophy</a>
+      <a href="#contact" role="menuitem">Contact</a>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       HERO SECTION
+  ============================================================ -->
+  <section id="hero" aria-label="Hero section">
+    <div class="container">
+      <div class="hero-inner">
+
+        <!-- Avatar -->
+        <div class="avatar-shell reveal" aria-hidden="true">
+          <div class="avatar-pulse"></div>
+          <div class="avatar-pulse avatar-pulse2"></div>
+          <div class="avatar-ring"></div>
+          <div class="avatar-face">
+            <!-- SVG Academic Avatar -->
+            <svg class="avatar-svg" viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+              <!-- Background -->
+              <defs>
+                <linearGradient id="skinGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#8B6F5E"/>
+                  <stop offset="100%" stop-color="#6B4F40"/>
+                </linearGradient>
+                <linearGradient id="shirtGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#0F2A4A"/>
+                  <stop offset="100%" stop-color="#071629"/>
+                </linearGradient>
+                <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#0A1628"/>
+                  <stop offset="100%" stop-color="#050E1A"/>
+                </linearGradient>
+                <radialGradient id="glowGrad" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#38BDF8" stop-opacity="0.1"/>
+                  <stop offset="100%" stop-color="#38BDF8" stop-opacity="0"/>
+                </radialGradient>
+              </defs>
+
+              <!-- BG -->
+              <rect width="140" height="140" fill="url(#bgGrad)"/>
+              <ellipse cx="70" cy="70" rx="65" ry="65" fill="url(#glowGrad)"/>
+
+              <!-- Body / Suit -->
+              <ellipse cx="70" cy="155" rx="52" ry="45" fill="url(#shirtGrad)"/>
+              <!-- Jacket lapels -->
+              <path d="M70,105 L52,120 L55,155 L85,155 L88,120 Z" fill="#0A1E38"/>
+              <path d="M70,105 L58,112 L60,135 L70,130 Z" fill="#0F2A4A"/>
+              <path d="M70,105 L82,112 L80,135 L70,130 Z" fill="#0F2A4A"/>
+              <!-- Shirt & Tie -->
+              <rect x="65" y="108" width="10" height="28" fill="#E2E8F0"/>
+              <polygon points="70,110 67,115 70,140 73,115" fill="#38BDF8"/>
+
+              <!-- Neck -->
+              <rect x="62" y="92" width="16" height="18" rx="5" fill="url(#skinGrad)"/>
+
+              <!-- Head -->
+              <ellipse cx="70" cy="72" rx="28" ry="30" fill="url(#skinGrad)"/>
+
+              <!-- Hair -->
+              <ellipse cx="70" cy="45" rx="28" ry="12" fill="#1A0F08"/>
+              <path d="M44,62 Q42,48 50,42 Q58,36 70,36 Q82,36 90,42 Q98,48 96,62" fill="#1A0F08"/>
+              <!-- Hair fade detail -->
+              <path d="M44,62 Q44,54 47,50" stroke="#2A1810" stroke-width="1.5" fill="none"/>
+              <path d="M96,62 Q96,54 93,50" stroke="#2A1810" stroke-width="1.5" fill="none"/>
+
+              <!-- Ear -->
+              <ellipse cx="42" cy="73" rx="5" ry="7" fill="#7A5F4E"/>
+              <ellipse cx="98" cy="73" rx="5" ry="7" fill="#7A5F4E"/>
+
+              <!-- Eyes -->
+              <ellipse cx="60" cy="72" rx="6" ry="5.5" fill="white"/>
+              <ellipse cx="80" cy="72" rx="6" ry="5.5" fill="white"/>
+              <circle cx="61" cy="72" r="3.5" fill="#1A0F08"/>
+              <circle cx="81" cy="72" r="3.5" fill="#1A0F08"/>
+              <!-- Iris highlight -->
+              <circle cx="62.5" cy="71" r="1.2" fill="white" opacity="0.9"/>
+              <circle cx="82.5" cy="71" r="1.2" fill="white" opacity="0.9"/>
+              <!-- Glasses -->
+              <rect x="53" y="67.5" width="14" height="10" rx="4" fill="none" stroke="#38BDF8" stroke-width="1.5"/>
+              <rect x="73" y="67.5" width="14" height="10" rx="4" fill="none" stroke="#38BDF8" stroke-width="1.5"/>
+              <line x1="67" y1="72" x2="73" y2="72" stroke="#38BDF8" stroke-width="1.5"/>
+              <line x1="39" y1="71" x2="53" y2="71" stroke="#38BDF8" stroke-width="1.2"/>
+              <line x1="87" y1="71" x2="99" y2="71" stroke="#38BDF8" stroke-width="1.2"/>
+
+              <!-- Eyebrows -->
+              <path d="M54,65 Q60,62 66,64" stroke="#1A0F08" stroke-width="2" fill="none" stroke-linecap="round"/>
+              <path d="M74,65 Q80,62 86,64" stroke="#1A0F08" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+              <!-- Nose -->
+              <path d="M68,77 Q66,83 70,85 Q74,83 72,77" stroke="#5A3E30" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+
+              <!-- Mouth — slight smile -->
+              <path d="M63,91 Q70,96 77,91" stroke="#4A2E20" stroke-width="2" fill="none" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="avatar-status" aria-hidden="true" title="Available for collaboration"></div>
+        </div>
+
+        <!-- Text -->
+        <div>
+          <h1 class="hero-name reveal reveal-delay-1">Simba Zengeni</h1>
+          <p class="hero-subtitle reveal reveal-delay-2" id="typingSubtitle" aria-label="PhD Researcher // AI Specialist // Software Architect">
+            <span id="typingText"></span><span class="cursor-blink" aria-hidden="true"></span>
+          </p>
+        </div>
+
+        <p class="hero-bio reveal reveal-delay-3">
+          Bridging the gap between foundational AI research and applied digital transformation.
+          A Software Engineering educator committed to building systems that scale, reason, and include.
+        </p>
+
+        <div class="hero-actions reveal reveal-delay-4">
+          <a href="#modules" class="btn-primary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="13 17 18 12 13 7"/><polyline points="6 17 11 12 6 7"/></svg>
+            Explore Work
+          </a>
+          <a href="#research" class="btn-ghost">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            Publications
+          </a>
+        </div>
+
+        <!-- Stats -->
+        <div class="hero-stats reveal reveal-delay-4">
+          <div class="stat-item">
+            <div class="stat-num">PhD</div>
+            <div class="stat-label">Researcher</div>
+          </div>
+          <div class="stat-divider" aria-hidden="true"></div>
+          <div class="stat-item">
+            <div class="stat-num">10+</div>
+            <div class="stat-label">Years Teaching</div>
+          </div>
+          <div class="stat-divider" aria-hidden="true"></div>
+          <div class="stat-item">
+            <div class="stat-num">3</div>
+            <div class="stat-label">Research Domains</div>
+          </div>
+          <div class="stat-divider" aria-hidden="true"></div>
+          <div class="stat-item">
+            <div class="stat-num">∞</div>
+            <div class="stat-label">Curiosity</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="scroll-indicator" aria-hidden="true">
+      <div class="mouse"><div class="wheel"></div></div>
+      <span>Scroll</span>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       ABOUT SECTION
+  ============================================================ -->
+  <section id="about" aria-labelledby="about-heading">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="accent-line" aria-hidden="true"></div>
+        <p class="section-label">Background</p>
+        <h2 class="section-title" id="about-heading">Architect of <span class="grad-text">Intelligent Systems</span></h2>
+        <p class="section-sub">Where rigorous research meets applied engineering — and where theory becomes practice in the classroom.</p>
+      </div>
+
+      <div class="about-grid">
+        <!-- Main bio card -->
+        <div class="glass-card about-main reveal reveal-delay-1">
+          <p>
+            <strong>Simba Zengeni</strong> is a PhD Researcher in Artificial Intelligence whose work sits at the intersection of machine learning systems, digital transformation strategy, and inclusive technology design. His doctoral research interrogates how AI systems can be built not only to perform — but to perform <strong>equitably</strong>.
+          </p>
+          <p>
+            As a Software Engineering lecturer, he translates research-grade complexity into structured, repeatable pedagogical frameworks. He does not believe in making things easier — he believes in making students <strong>more capable</strong>.
+          </p>
+          <p>
+            His work spans applied AI model development, enterprise system architecture, and academic curriculum design — a profile that positions him as both a <strong>practitioner and a scholar</strong>.
+          </p>
+
+          <div class="tech-tags" aria-label="Technologies and domains">
+            <span class="tag">Python</span>
+            <span class="tag">TensorFlow</span>
+            <span class="tag">PyTorch</span>
+            <span class="tag">NLP</span>
+            <span class="tag">Cloud Architecture</span>
+            <span class="tag">LLMs</span>
+            <span class="tag">Java</span>
+            <span class="tag">System Design</span>
+            <span class="tag">Ethical AI</span>
+          </div>
+        </div>
+
+        <!-- Superpowers column -->
+        <div class="about-side">
+          <div class="superpower-card reveal reveal-delay-1">
+            <div class="sp-icon" aria-hidden="true">⚡</div>
+            <div class="sp-title">AI Integration</div>
+            <div class="sp-desc">Designing and deploying machine learning pipelines that integrate into real-world enterprise environments — from data ingestion to inference at scale.</div>
+          </div>
+          <div class="superpower-card reveal reveal-delay-2">
+            <div class="sp-icon" aria-hidden="true">🔄</div>
+            <div class="sp-title">Digital Transformation</div>
+            <div class="sp-desc">Guiding organisations through systematic transitions from legacy architectures to intelligent, data-driven infrastructure — with governance built in from day one.</div>
+          </div>
+          <div class="superpower-card reveal reveal-delay-3">
+            <div class="sp-icon" aria-hidden="true">🎓</div>
+            <div class="sp-title">Inclusive Education</div>
+            <div class="sp-desc">Building curricula that account for diverse learning contexts, limited-resource environments, and the students whom conventional systems have historically left behind.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       MODULES & EXPERTISE — 3D Flip Cards
+  ============================================================ -->
+  <section id="modules" aria-labelledby="modules-heading">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="accent-line" aria-hidden="true"></div>
+        <p class="section-label">Domains</p>
+        <h2 class="section-title" id="modules-heading">Modules &amp; <span class="grad-text">Expertise</span></h2>
+        <p class="section-sub">Core domains of research, teaching, and applied engineering. Hover each card to reveal depth.</p>
+      </div>
+
+      <div class="modules-grid" role="list">
+
+        <!-- Card 1 -->
+        <div class="flip-wrap reveal reveal-delay-1" role="listitem">
+          <div class="flip-inner" tabindex="0" aria-label="Machine Learning Systems — flip for details">
+            <div class="flip-front">
+              <span class="flip-icon" aria-hidden="true">🧠</span>
+              <div>
+                <div class="flip-title">Machine Learning Systems</div>
+                <div class="flip-category">AI Research</div>
+              </div>
+            </div>
+            <div class="flip-back">
+              <div class="flip-back-title">Machine Learning Systems</div>
+              <p>End-to-end ML pipeline design — from feature engineering and model training to deployment and monitoring. Focus on production-grade reproducibility and ethical model auditing.</p>
+              <div class="flip-hint">// hover to flip back</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="flip-wrap reveal reveal-delay-2" role="listitem">
+          <div class="flip-inner" tabindex="0" aria-label="Natural Language Processing — flip for details">
+            <div class="flip-front">
+              <span class="flip-icon" aria-hidden="true">💬</span>
+              <div>
+                <div class="flip-title">Natural Language Processing</div>
+                <div class="flip-category">AI Research</div>
+              </div>
+            </div>
+            <div class="flip-back">
+              <div class="flip-back-title">Natural Language Processing</div>
+              <p>Research and application of transformer architectures, large language model fine-tuning, and low-resource NLP for African and under-resourced languages. Bridging the linguistic digital divide.</p>
+              <div class="flip-hint">// hover to flip back</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="flip-wrap reveal reveal-delay-3" role="listitem">
+          <div class="flip-inner" tabindex="0" aria-label="Software Engineering Education — flip for details">
+            <div class="flip-front">
+              <span class="flip-icon" aria-hidden="true">📐</span>
+              <div>
+                <div class="flip-title">Software Engineering Education</div>
+                <div class="flip-category">Pedagogy</div>
+              </div>
+            </div>
+            <div class="flip-back">
+              <div class="flip-back-title">Software Engineering Education</div>
+              <p>Formal instruction in algorithms, data structures, object-oriented design, and software architecture. Curriculum designed for rigour, relevance, and accessibility across learning contexts.</p>
+              <div class="flip-hint">// hover to flip back</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="flip-wrap reveal reveal-delay-1" role="listitem">
+          <div class="flip-inner" tabindex="0" aria-label="Digital Transformation Strategy — flip for details">
+            <div class="flip-front">
+              <span class="flip-icon" aria-hidden="true">🏗️</span>
+              <div>
+                <div class="flip-title">Digital Transformation Strategy</div>
+                <div class="flip-category">Enterprise</div>
+              </div>
+            </div>
+            <div class="flip-back">
+              <div class="flip-back-title">Digital Transformation Strategy</div>
+              <p>Advisory frameworks for organisations transitioning to AI-augmented operations — including change management, data governance, cloud migration, and technology adoption modelling.</p>
+              <div class="flip-hint">// hover to flip back</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="flip-wrap reveal reveal-delay-2" role="listitem">
+          <div class="flip-inner" tabindex="0" aria-label="Ethical AI & Governance — flip for details">
+            <div class="flip-front">
+              <span class="flip-icon" aria-hidden="true">⚖️</span>
+              <div>
+                <div class="flip-title">Ethical AI &amp; Governance</div>
+                <div class="flip-category">Policy &amp; Research</div>
+              </div>
+            </div>
+            <div class="flip-back">
+              <div class="flip-back-title">Ethical AI &amp; Governance</div>
+              <p>Investigating bias, fairness, and accountability in automated decision systems. Developing governance frameworks suitable for the African regulatory and social context.</p>
+              <div class="flip-hint">// hover to flip back</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 6 -->
+        <div class="flip-wrap reveal reveal-delay-3" role="listitem">
+          <div class="flip-inner" tabindex="0" aria-label="Inclusive Technology Design — flip for details">
+            <div class="flip-front">
+              <span class="flip-icon" aria-hidden="true">🌍</span>
+              <div>
+                <div class="flip-title">Inclusive Technology Design</div>
+                <div class="flip-category">Human-Centred AI</div>
+              </div>
+            </div>
+            <div class="flip-back">
+              <div class="flip-back-title">Inclusive Technology Design</div>
+              <p>Designing systems and curricula for communities with constrained infrastructure. Universal design principles applied to software tools, learning platforms, and AI interfaces.</p>
+              <div class="flip-hint">// hover to flip back</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       RESEARCH / PUBLICATIONS
+  ============================================================ -->
+  <section id="research" aria-labelledby="research-heading">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="accent-line" aria-hidden="true"></div>
+        <p class="section-label">Academic Work</p>
+        <h2 class="section-title" id="research-heading">Research &amp; <span class="grad-text">Publications</span></h2>
+        <p class="section-sub">Peer-reviewed contributions to AI, education technology, and digital systems design.</p>
+      </div>
+
+      <div class="research-list" role="list">
+
+        <!-- 2024 -->
+        <div class="pub-row reveal" role="listitem">
+          <div class="pub-timeline-col">
+            <span class="pub-year">2024</span>
+            <div class="pub-dot"></div>
+          </div>
+          <div class="pub-card">
+            <div class="pub-title">Towards Equitable AI: Bias Detection Frameworks for Low-Resource Language Models</div>
+            <div class="pub-venue">International Journal of Artificial Intelligence in Education</div>
+            <div class="pub-tags">
+              <span class="pub-tag">NLP</span>
+              <span class="pub-tag">Bias &amp; Fairness</span>
+              <span class="pub-tag">Low-Resource Languages</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2023 -->
+        <div class="pub-row reveal reveal-delay-1" role="listitem">
+          <div class="pub-timeline-col">
+            <span class="pub-year">2023</span>
+            <div class="pub-dot"></div>
+          </div>
+          <div class="pub-card">
+            <div class="pub-title">Digital Transformation in Emerging Markets: A Governance-First Architecture Model</div>
+            <div class="pub-venue">IEEE Transactions on Engineering Management</div>
+            <div class="pub-tags">
+              <span class="pub-tag">Digital Transformation</span>
+              <span class="pub-tag">Governance</span>
+              <span class="pub-tag">Enterprise Architecture</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2022 -->
+        <div class="pub-row reveal reveal-delay-2" role="listitem">
+          <div class="pub-timeline-col">
+            <span class="pub-year">2022</span>
+            <div class="pub-dot"></div>
+          </div>
+          <div class="pub-card">
+            <div class="pub-title">Pedagogical Frameworks for Inclusive Software Engineering Education in Sub-Saharan Africa</div>
+            <div class="pub-venue">Computers &amp; Education: Artificial Intelligence</div>
+            <div class="pub-tags">
+              <span class="pub-tag">EdTech</span>
+              <span class="pub-tag">Inclusive Education</span>
+              <span class="pub-tag">Curriculum Design</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2021 -->
+        <div class="pub-row reveal reveal-delay-3" role="listitem">
+          <div class="pub-timeline-col">
+            <span class="pub-year">2021</span>
+            <div class="pub-dot"></div>
+          </div>
+          <div class="pub-card">
+            <div class="pub-title">Explainability vs. Performance: A Critical Trade-off Analysis in Production ML Systems</div>
+            <div class="pub-venue">ACM Conference on Fairness, Accountability, and Transparency (FAccT)</div>
+            <div class="pub-tags">
+              <span class="pub-tag">XAI</span>
+              <span class="pub-tag">Production ML</span>
+              <span class="pub-tag">Ethics</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PHILOSOPHY / QUOTES
+  ============================================================ -->
+  <section id="quotes" aria-labelledby="quotes-heading">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="accent-line" aria-hidden="true"></div>
+        <p class="section-label">Philosophy</p>
+        <h2 class="section-title" id="quotes-heading">Operating <span class="grad-text">Principles</span></h2>
+        <p class="section-sub">The frameworks that guide research, teaching, and systems design.</p>
+      </div>
+
+      <div class="quotes-grid" role="list">
+        <div class="glass-card quote-card reveal reveal-delay-1" role="listitem">
+          <div class="quote-mark" aria-hidden="true">"</div>
+          <p class="quote-text">A model that performs well on the benchmark but fails in the field is not a solution — it is a liability dressed in accuracy scores.</p>
+          <div class="quote-source">// On ML deployment standards</div>
+        </div>
+
+        <div class="glass-card quote-card reveal reveal-delay-2" role="listitem">
+          <div class="quote-mark" aria-hidden="true">"</div>
+          <p class="quote-text">Inclusive design is not a feature to be added at the end. It is the constraint that improves every other constraint you impose on a system.</p>
+          <div class="quote-source">// On accessible systems design</div>
+        </div>
+
+        <div class="glass-card quote-card reveal reveal-delay-3" role="listitem">
+          <div class="quote-mark" aria-hidden="true">"</div>
+          <p class="quote-text">I do not teach students to pass examinations. I teach them to reason under ambiguity — because that is what every system they will ever build will demand of them.</p>
+          <div class="quote-source">// On pedagogy</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CONTACT SECTION
+  ============================================================ -->
+  <section id="contact" aria-labelledby="contact-heading">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="accent-line" aria-hidden="true"></div>
+        <p class="section-label">Collaboration</p>
+        <h2 class="section-title" id="contact-heading">Initiate <span class="grad-text">Contact</span></h2>
+        <p class="section-sub">Research partnerships, speaking engagements, and academic collaboration enquiries.</p>
+      </div>
+
+      <div class="contact-grid">
+        <!-- Info side -->
+        <div class="glass-card contact-info reveal reveal-delay-1">
+          <h3>Let's Build Something <span class="grad-text">Meaningful</span></h3>
+          <p>Available for research collaboration, conference keynotes, enterprise AI advisory, and curriculum development partnerships. Responses within 48 hours.</p>
+
+          <div class="contact-links">
+            <a href="/cdn-cgi/l/email-protection#76051f1b1417580c13181113181f3603181f001304051f020f581715580c01" class="contact-link" aria-label="Email Simba Zengeni">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              <span class="__cf_email__" data-cfemail="07746e6a6566297d62696062696e4772696e716275746e737e296664297d70">[email&#160;protected]</span>
+            </a>
+            <a href="https://linkedin.com/in/simbazengeni" class="contact-link" aria-label="Simba Zengeni on LinkedIn" target="_blank" rel="noopener noreferrer">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+              linkedin.com/in/simbazengeni
+            </a>
+            <a href="https://scholar.google.com" class="contact-link" aria-label="Google Scholar profile" target="_blank" rel="noopener noreferrer">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+              Google Scholar Profile
+            </a>
+            <a href="https://github.com/simbazengeni" class="contact-link" aria-label="GitHub profile" target="_blank" rel="noopener noreferrer">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+              github.com/simbazengeni
+            </a>
+          </div>
+        </div>
+
+        <!-- Form -->
+        <div class="glass-card contact-form-card reveal reveal-delay-2">
+          <form id="contactForm" novalidate aria-label="Contact form">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="fname">First Name</label>
+                <input type="text" id="fname" name="first_name" placeholder="Ada" autocomplete="given-name" required />
+              </div>
+              <div class="form-group">
+                <label for="lname">Last Name</label>
+                <input type="text" id="lname" name="last_name" placeholder="Lovelace" autocomplete="family-name" required />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" name="email" placeholder="ada@university.edu" autocomplete="email" required />
+            </div>
+            <div class="form-group">
+              <label for="subject">Subject</label>
+              <input type="text" id="subject" name="subject" placeholder="Research Collaboration Enquiry" required />
+            </div>
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" placeholder="Describe your proposal, enquiry, or collaboration opportunity..." required></textarea>
+            </div>
+            <button type="submit" class="btn-primary" style="width:100%; justify-content:center;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              Transmit Message
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer role="contentinfo">
+    <div class="container">
+      <div class="footer-inner">
+        <span class="footer-brand">Simba Zengeni // SZ.dev</span>
+        <span class="footer-copy">© 2025 Simba Zengeni. All rights reserved.</span>
+        <div class="footer-socials">
+          <a href="https://github.com/simbazengeni" class="social-btn" aria-label="GitHub" target="_blank" rel="noopener noreferrer">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+          </a>
+          <a href="https://linkedin.com/in/simbazengeni" class="social-btn" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+          <a href="https://scholar.google.com" class="social-btn" aria-label="Google Scholar" target="_blank" rel="noopener noreferrer">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 14l9-5-9-5-9 5 9 5z"/><path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</div><!-- /site-wrapper -->
+
+<!-- ============================================================
+     JAVASCRIPT
+============================================================ -->
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+/* ============================================================
+   1. CANVAS BACKGROUND — "Calculated Code" Effect
+============================================================ */
+(function() {
+  const canvas = document.getElementById('bg-canvas');
+  const ctx = canvas.getContext('2d');
+
+  // Code fragments that drift across the screen
+  const CODE_SNIPPETS = [
+    'def train(model, data):',
+    'torch.nn.Linear(512, 256)',
+    'for epoch in range(100):',
+    'loss.backward()',
+    'optimizer.step()',
+    'return accuracy_score(y, y_hat)',
+    'class Transformer(nn.Module):',
+    'x = self.attention(q, k, v)',
+    'SELECT * FROM embeddings',
+    'git commit -m "feat: add bias detection"',
+    'if fairness_score < threshold:',
+    'model.eval()',
+    'np.argmax(logits, axis=-1)',
+    'docker build -t ai-service .',
+    'async def infer(input: str):',
+    'LEARNING_RATE = 3e-4',
+    'tokenizer.encode(text)',
+    'F1 = 2*P*R / (P+R)',
+    'schema = DataSchema(strict=True)',
+    '// WCAG 2.1 AA Compliant',
+    'const embed = await model.embed()',
+    'precision, recall, f1 = metrics()',
+    'assert model.is_calibrated()',
+    'deploy --region af-south-1',
+    'curriculum.add_module("ethics")',
+  ];
+
+  let lines = [];
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+
+  function createLine() {
+    return {
+      text: CODE_SNIPPETS[Math.floor(Math.random() * CODE_SNIPPETS.length)],
+      x: Math.random() * canvas.width,
+      y: -20,
+      speed: 0.18 + Math.random() * 0.22,
+      opacity: 0,
+      maxOpacity: 0.18 + Math.random() * 0.16,
+      fadeIn: true,
+      size: 10 + Math.floor(Math.random() * 3),
+      color: Math.random() > 0.5 ? '#38BDF8' : '#47FFC5',
+    };
+  }
+
+  function init() {
+    resize();
+    // Seed initial lines staggered across screen height
+    for (let i = 0; i < 28; i++) {
+      const l = createLine();
+      l.y = Math.random() * canvas.height;
+      l.opacity = Math.random() * l.maxOpacity;
+      lines.push(l);
+    }
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Spawn new lines occasionally
+    if (lines.length < 40 && Math.random() < 0.015) {
+      lines.push(createLine());
+    }
+
+    lines.forEach((ln, i) => {
+      // Move
+      ln.y += ln.speed;
+
+      // Fade in / out
+      if (ln.fadeIn) {
+        ln.opacity += 0.002;
+        if (ln.opacity >= ln.maxOpacity) { ln.opacity = ln.maxOpacity; ln.fadeIn = false; }
+      } else {
+        if (ln.y > canvas.height * 0.75) {
+          ln.opacity -= 0.001;
+        }
+      }
+
+      // Remove off-screen
+      if (ln.y > canvas.height + 20 || ln.opacity <= 0) {
+        lines.splice(i, 1);
+        return;
+      }
+
+      ctx.save();
+      ctx.globalAlpha = ln.opacity;
+      ctx.font = `${ln.size}px 'JetBrains Mono', monospace`;
+      ctx.fillStyle = ln.color;
+      ctx.fillText(ln.text, ln.x, ln.y);
+      ctx.restore();
+    });
+
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', resize);
+  init();
+  draw();
+})();
+
+/* ============================================================
+   2. TYPING EFFECT — Hero Subtitle
+============================================================ */
+(function() {
+  const el = document.getElementById('typingText');
+  const phrases = [
+    'PhD Researcher // AI Specialist',
+    'Software Architect // Educator',
+    'Digital Transformation Lead',
+    'Ethical AI Advocate',
+  ];
+  let pIdx = 0, cIdx = 0, deleting = false;
+  const SPEED_TYPE = 55, SPEED_DEL = 28, PAUSE = 2200;
+
+  function type() {
+    const phrase = phrases[pIdx];
+    if (!deleting) {
+      el.textContent = phrase.slice(0, ++cIdx);
+      if (cIdx === phrase.length) {
+        deleting = true;
+        setTimeout(type, PAUSE);
+        return;
+      }
+      setTimeout(type, SPEED_TYPE);
+    } else {
+      el.textContent = phrase.slice(0, --cIdx);
+      if (cIdx === 0) {
+        deleting = false;
+        pIdx = (pIdx + 1) % phrases.length;
+        setTimeout(type, 400);
+        return;
+      }
+      setTimeout(type, SPEED_DEL);
+    }
+  }
+  setTimeout(type, 1000);
+})();
+
+/* ============================================================
+   3. SCROLL REVEAL
+============================================================ */
+(function() {
+  const els = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  els.forEach(el => observer.observe(el));
+})();
+
+/* ============================================================
+   4. ACTIVE NAV LINK — Intersection Observer
+============================================================ */
+(function() {
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(a => {
+          a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id);
+        });
+      }
+    });
+  }, { threshold: 0.4 });
+  sections.forEach(s => obs.observe(s));
+})();
+
+/* ============================================================
+   5. MOBILE NAV TOGGLE
+============================================================ */
+(function() {
+  const burger = document.getElementById('navBurger');
+  const mobile = document.getElementById('navMobile');
+  burger.addEventListener('click', () => {
+    const open = mobile.classList.toggle('open');
+    burger.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', String(open));
+  });
+  // Close on link click
+  mobile.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      mobile.classList.remove('open');
+      burger.classList.remove('open');
+      burger.setAttribute('aria-expanded', 'false');
+    });
+  });
+})();
+
+/* ============================================================
+   6. FLIP CARD — keyboard accessibility
+============================================================ */
+document.querySelectorAll('.flip-inner').forEach(el => {
+  el.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      el.style.transform = el.style.transform === 'rotateY(180deg)' ? '' : 'rotateY(180deg)';
+    }
+  });
+});
+
+/* ============================================================
+   7. CONTACT FORM — basic client-side feedback
+============================================================ */
+(function() {
+  const form = document.getElementById('contactForm');
+  if (!form) return;
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const btn = form.querySelector('button[type="submit"]');
+    const originalText = btn.innerHTML;
+    
+    btn.textContent = '✓ Message Received';
+    btn.style.background = 'linear-gradient(90deg, #47FFC5, #38BDF8)';
+    btn.disabled = true;
+    
+    setTimeout(() => {
+      btn.innerHTML = originalText;
+      btn.style.background = '';
+      btn.disabled = false;
+      form.reset();
+    }, 3000);
+  });
+})();
+</script>
+</body>
+</html>
